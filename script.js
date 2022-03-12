@@ -11,6 +11,7 @@ const DIRECTION = {
   DOWN: 3,
 };
 const MOVE_INTERVAL = 120;
+const SPACE_LOVE = 22;
 
 function initPosition() {
   return {
@@ -62,6 +63,10 @@ let apple5 = {
     position: initPosition(),
 };
 
+
+// the default is 3
+let totalLove = 3;
+
 function drawCell(ctx, x, y, snakeId) {
   let img = document.getElementById(snakeId);
   ctx.drawImage(img, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -92,8 +97,7 @@ function drawSnake(ctx, snake) {
 function drawApple(ctx, apple) {
   let img = document.getElementById("apple");
 
-  ctx.drawImage(img, apple.position.x * CELL_SIZE, apple.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE
-  );
+  ctx.drawImage(img, apple.position.x * CELL_SIZE, apple.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
 function drawScore(snake) {
@@ -108,6 +112,15 @@ function drawScore(snake) {
   scoreCtx.font = "30px Arial";
   // scoreCtx.fillStyle = snake.color;
   scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
+}
+
+function drawLove(ctx,totalLove) {
+  let img = document.getElementById("love");
+  let space = CELL_SIZE;
+  for (let i=0; i<totalLove; i++) {
+    ctx.drawImage(img, space, CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    space = space + SPACE_LOVE;
+  }
 }
 
 function clearScreen(ctx) {
@@ -138,6 +151,8 @@ function draw() {
 
     // apple 5
     drawApple(ctx, apple5);
+
+    drawLove(ctx, totalLove);
 
     drawScore(snake1);
   }, REDRAW_INTERVAL);
@@ -222,10 +237,14 @@ function checkCollision(snakes) {
   }
 
   if (isCollide) {
-    // gameOver.play();
-    alert("Game over");
-
-    snake1 = initSnake("#DBDBDB");
+    if (totalLove != 0) {
+      snake1 = initSnake("#DBDBDB");
+      totalLove -= 1;
+    } else {
+      alert("Game over, play again?");
+      totalLove = 3;
+      snake1 = initSnake("#DBDBDB"); 
+    }
   }
 
   return isCollide;
