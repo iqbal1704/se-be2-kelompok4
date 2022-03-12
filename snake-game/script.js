@@ -41,6 +41,16 @@ let apple2 = {
     position: initPosition(),
 }
 
+let apple3 = {
+    color: "red",
+    position: initPosition(),
+}
+
+let apple4 = {
+    color: "red",
+    position: initPosition(),
+}
+
 function drawCell(ctx, x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -73,6 +83,8 @@ function draw() {
         let img = document.getElementById("apple");
         ctx.drawImage(img, apple1.position.x * CELL_SIZE, apple1.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         ctx.drawImage(img, apple2.position.x * CELL_SIZE, apple2.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        ctx.drawImage(img, apple3.position.x * CELL_SIZE, apple3.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        ctx.drawImage(img, apple4.position.x * CELL_SIZE, apple4.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
         drawScore(snake1);
     }, REDRAW_INTERVAL);
@@ -101,6 +113,16 @@ function eat(snake, apple1, apple2) {
 
     if (snake.position.x == apple2.position.x && snake.position.y == apple2.position.y) {
         apple2.position = initPosition();
+        snake.score++;
+    }
+
+    if (snake.position.x == apple3.position.x && snake.position.y == apple3.position.y) {
+        apple3.position = initPosition();
+        snake.score++;
+    }
+
+    if (snake.position.x == apple4.position.x && snake.position.y == apple4.position.y) {
+        apple4.position = initPosition();
         snake.score++;
     }
 }
