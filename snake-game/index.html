@@ -1,11 +1,79 @@
 <html>
     <head>
-        <script type="text/javascript" src="script.js"></script>
     </head>
-    <body onload="draw();">
-        <h1>Snake</h1>
-        <img id="apple" style="display: none;" width="20" height="20" src="asset/apple.png" alt="Apple">
-        <canvas id="snakeBoard" width="400" height="400" style="border:1px solid #000000;"></canvas>
-        <canvas id="score1Board" width="100" height="100" style="border:1px solid #000000;"></canvas>
+        <div style="text-align: center;">
+        <canvas id="snakeBoard" width="600" height="600" style="border:1px solid #000000;"></canvas>
+        <style>
+            body {
+              margin-top: 10px;
+              margin-left: 31px;
+              margin-right: 31px;
+              padding: 0;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              background-color: #ecf0f3;
+            }
+      
+            canvas {
+              border: 3px solid rgba(0, 0, 0, 0.35);
+              box-sizing: border-box;
+              border-radius: 40px;
+            }
+      
+            .snake-head {
+              display: none;
+            }
+      
+            #snake-body {
+              display: none;
+            }
+      
+            #apple {
+              display: none;
+            }
+
+            #love {
+                display: none;
+            }
+      
+            h1 {
+              margin-top: 10px;
+            }
+      
+            h3 {
+              font-weight: lighter;
+              margin-top: 10px;
+            }
+          </style>
+          </head>
+          <body onload="draw();">
+            <!-- snake-head -->
+            <img id="snake-head-top" class="snake-head" src="assets/snake-head-top.png" alt="snake head" width="20" height="20">
+            <img id="snake-head-down" class="snake-head" src="assets/snake-head-down.jpg"  alt="snake head" width="20" height="20">
+            <img id="snake-head-left" class="snake-head" src="assets/snake-head-left.png" alt="snake head" width="20" height="20">
+            <img id="snake-head-right" class="snake-head" src="assets/snake-head-right.png" alt="snake head" width="20" height="20">
+            <!-- end snake-head -->
+        
+            <!-- snake-body -->
+            <img id="snake-body" src="assets/snake-body.png" alt="snake-body" width="20" height="20"></img>
+            <!-- end snake-body -->
+        
+            <!-- apple -->
+            <img id="apple" width="20" height="20" src="assets/apple.png" alt="Apple">
+            <!-- end apple -->
+
+            <!-- love -->
+            <img id="love" width="20" height="20" src="assets/love.png" alt="love">
+        
+            <h1>Snake Game</h1>
+            <h3 style="margin-top: -20px">Level 1</h3>
+        
+            <canvas id="score1Board"  style="background-color: #d0d8e2; border-radius: 20px" width="200" height="80"
+            ></canvas>
+        <!-- element Skor -->
+    </div>
+    <script type="text/javascript" src="script.js"></script>
     </body>
 </html>
