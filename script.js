@@ -10,8 +10,9 @@ const DIRECTION = {
   UP: 2,
   DOWN: 3,
 };
-const MOVE_INTERVAL = 120;
+let MOVE_INTERVAL = 120;
 const SPACE_LOVE = 22;
+const SPACE_OBSTACLE = 22;
 
 function initPosition() {
   return {
@@ -39,6 +40,7 @@ function initSnake(color) {
     ...initHeadAndBody(),
     direction: initDirection(),
     score: 0,
+    level: 1,
   };
 }
 let snake1 = initSnake("#DBDBDB");
@@ -100,6 +102,11 @@ function drawApple(ctx, apple) {
   ctx.drawImage(img, apple.position.x * CELL_SIZE, apple.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
+function drawWall(ctx, wall) {
+  let wl = document.getElementById("wall");
+  ctx.drawImage(wl, wall.position.x, wall.position.y , 300, 20);
+}
+
 function drawScore(snake) {
   let scoreCanvas;
   if (snake.color == snake1.color) {
@@ -121,6 +128,44 @@ function drawLove(ctx,totalLove) {
     ctx.drawImage(img, space, CELL_SIZE, CELL_SIZE, CELL_SIZE);
     space = space + SPACE_LOVE;
   }
+}
+
+function drawLevel(level) {
+  if (level <= 5) {
+    let lvl = document.getElementById("level");
+    lvl.textContent = `Level ${level}`
+  }
+}
+
+function drawObstacle(ctx, level) {
+  ctx.color = 'black';
+  switch (level) {
+    case 2:
+      ctx.fillRect(WIDTH*5, HEIGHT*10 , 300, 20);
+      break;
+    case 3:
+      ctx.fillRect(WIDTH*5, HEIGHT*8 , 300, 20);
+      ctx.fillRect(WIDTH*5, HEIGHT*12 , 300, 20);
+      break;
+    case 4:
+      ctx.fillRect(WIDTH*5, HEIGHT*8 , 300, 20);
+      ctx.fillRect(WIDTH*5, HEIGHT*10 , 300, 20);
+      ctx.fillRect(WIDTH*5, HEIGHT*12 , 300, 20);
+      break;
+    case 5:
+      ctx.fillRect(WIDTH*16, HEIGHT*5 , 20, 300);
+      ctx.fillRect(WIDTH*3, HEIGHT*5 , 20, 300);
+      break;
+  }
+}
+
+function dead() {
+  let lastScore = snake1.score;
+  let lastLevel = snake1.level;
+  snake1 = initSnake("#DBDBDB");
+  snake1.score = lastScore;
+  snake1.level = lastLevel;
+  totalLove -= 1;
 }
 
 function clearScreen(ctx) {
@@ -152,9 +197,16 @@ function draw() {
     // apple 5
     drawApple(ctx, apple5);
 
+    // love
     drawLove(ctx, totalLove);
 
+    // score
     drawScore(snake1);
+
+    // obstacle
+    drawObstacle(ctx, snake1.level);
+
+
   }, REDRAW_INTERVAL);
 }
 
@@ -178,47 +230,44 @@ function eat(snake, apple) {
     apple.position = initPosition();
     snake.score++;
     snake.body.push({ x: snake.head.x, y: snake.head.y });
+    
+    if (snake.score !== 0 && snake.score % 5 === 0 && snake.level <= 5) {
+      alert(`Level ${snake.level} Complete!`);
+      snake.level++
+      drawLevel(snake.level);
+    }
   }
+}
+function eats(snake) {
+  eat(snake, apple1);
+  eat(snake, apple2);
+  eat(snake, apple3);
+  eat(snake, apple4);
+  eat(snake, apple5);
 }
 
 function moveLeft(snake) {
   snake.head.x--;
   teleport(snake);
-  eat(snake, apple1);
-  eat(snake, apple2);
-  eat(snake, apple3);
-  eat(snake, apple4);
-  eat(snake, apple5);
+  eats(snake);
 }
 
 function moveRight(snake) {
   snake.head.x++;
   teleport(snake);
-  eat(snake, apple1);
-  eat(snake, apple2);
-  eat(snake, apple3);
-  eat(snake, apple4);
-  eat(snake, apple5);
+  eats(snake);
 }
 
 function moveDown(snake) {
   snake.head.y++;
   teleport(snake);
-  eat(snake, apple1);
-  eat(snake, apple2);
-  eat(snake, apple3);
-  eat(snake, apple4);
-  eat(snake, apple5);
+  eats(snake);
 }
 
 function moveUp(snake) {
   snake.head.y--;
   teleport(snake);
-  eat(snake, apple1);
-  eat(snake, apple2);
-  eat(snake, apple3);
-  eat(snake, apple4);
-  eat(snake, apple5);
+  eats(snake);
 }
 
 function checkCollision(snakes) {
@@ -238,12 +287,18 @@ function checkCollision(snakes) {
 
   if (isCollide) {
     if (totalLove != 0) {
+      let lastScore = snake1.score;
+      let lastLevel = snake1.level;
       snake1 = initSnake("#DBDBDB");
+      snake1.score = lastScore;
+      snake1.level = lastLevel;
       totalLove -= 1;
     } else {
       alert("Game over, play again?");
       totalLove = 3;
       snake1 = initSnake("#DBDBDB"); 
+      snake1.level = 1;
+      snake1.score = 0;
     }
   }
 
