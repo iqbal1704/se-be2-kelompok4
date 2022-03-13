@@ -159,6 +159,41 @@ function drawObstacle(ctx, level) {
   }
 }
 
+function drawSpeed(level) {
+  let speed = document.getElementById("speed");
+  let showSpeed = '';
+  switch (level) {
+    case 1:
+      showSpeed = 120;
+      MOVE_INTERVAL = 120;
+      break;
+    case 2:
+      showSpeed = 140;
+      MOVE_INTERVAL = 100;
+      break;
+    case 3:
+      showSpeed = 160;
+      MOVE_INTERVAL = 80;
+      break;
+    case 4:
+      showSpeed = 180;
+      MOVE_INTERVAL = 60;
+      break;
+    case 5:
+      showSpeed = 200;
+      MOVE_INTERVAL = 40;
+      break;
+    default:
+      showSpeed = 200;
+      MOVE_INTERVAL = 40;
+      break;
+  }
+
+  speed.textContent = `Speed: ${showSpeed} .ms`;
+}
+
+// function checkWall()
+
 function dead() {
   let lastScore = snake1.score;
   let lastLevel = snake1.level;
@@ -203,9 +238,11 @@ function draw() {
     // score
     drawScore(snake1);
 
-    // obstacle
+    // // obstacle
     drawObstacle(ctx, snake1.level);
 
+    // drawSpeed
+    drawSpeed(snake1.level);
 
   }, REDRAW_INTERVAL);
 }
