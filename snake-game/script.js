@@ -65,6 +65,10 @@ let apple5 = {
     position: initPosition(),
 };
 
+let applePrime = {
+  position: initPosition(),
+}
+
 
 // the default is 3
 let totalLove = 3;
@@ -137,24 +141,89 @@ function drawLevel(level) {
   }
 }
 
+
+
 function drawObstacle(ctx, level) {
   ctx.color = 'black';
+
   switch (level) {
     case 2:
-      ctx.fillRect(WIDTH*5, HEIGHT*10 , 300, 20);
+      for (let i=5; i<=25; i++) {
+        for (let j=15; j<=15; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 15 && snake1.head.y <= 15) {
+          dead();
+      }
       break;
     case 3:
-      ctx.fillRect(WIDTH*5, HEIGHT*8 , 300, 20);
-      ctx.fillRect(WIDTH*5, HEIGHT*12 , 300, 20);
+      for (let i=5; i<=25; i++) {
+        for (let j=10; j<=10; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 10 && snake1.head.y <= 10) {
+          dead();
+      }
+    
+      for (let i=5; i<=25; i++) {
+        for (let j=20; j<=20; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 20 && snake1.head.y <= 20) {
+          dead();
+      }
       break;
     case 4:
-      ctx.fillRect(WIDTH*5, HEIGHT*8 , 300, 20);
-      ctx.fillRect(WIDTH*5, HEIGHT*10 , 300, 20);
-      ctx.fillRect(WIDTH*5, HEIGHT*12 , 300, 20);
+      for (let i=5; i<=25; i++) {
+        for (let j=10; j<=10; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 10 && snake1.head.y <= 10) {
+          dead();
+      }
+    
+      for (let i=5; i<=25; i++) {
+        for (let j=15; j<=15; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 15 && snake1.head.y <= 15) {
+          dead();
+      }
+    
+      for (let i=5; i<=25; i++) {
+        for (let j=20; j<=20; j++) {
+          ctx.fillRect(i * CELL_SIZE, CELL_SIZE*j, CELL_SIZE, CELL_SIZE);
+        }
+      }
+    
+      if (snake1.head.x >= 5 && snake1.head.x <= 25 &&
+        snake1.head.y >= 20 && snake1.head.y <= 20) {
+          dead();
+      }
       break;
     case 5:
       ctx.fillRect(WIDTH*16, HEIGHT*5 , 20, 300);
       ctx.fillRect(WIDTH*3, HEIGHT*5 , 20, 300);
+
+      if (snake1.head.x >= 16 && snake1.head.x <= WIDTH*16 &&
+        snake1.head.y >= 20 && snake1.head.y <= 20) {
+
+      }
       break;
   }
 }
@@ -192,15 +261,26 @@ function drawSpeed(level) {
   speed.textContent = `Speed: ${showSpeed} .ms`;
 }
 
-// function checkWall()
-
 function dead() {
   let lastScore = snake1.score;
   let lastLevel = snake1.level;
-  snake1 = initSnake("#DBDBDB");
-  snake1.score = lastScore;
-  snake1.level = lastLevel;
-  totalLove -= 1;
+
+  if (totalLove <= 0) {
+    alert("Game over, play again?");
+    snake1 = initSnake("#DBDBDB");
+    snake1.score = 0;
+    snake1.level = 1;
+    totalLove = 3;
+    MOVE_INTERVAL = 120;
+    initGame();
+    drawLevel(snake1.level);
+  } else {
+    snake1 = initSnake("#DBDBDB");
+    snake1.score = lastScore;
+    snake1.level = lastLevel;
+    totalLove -= 1;
+    move(snake1);
+  } 
 }
 
 function clearScreen(ctx) {
@@ -323,20 +403,7 @@ function checkCollision(snakes) {
   }
 
   if (isCollide) {
-    if (totalLove != 0) {
-      let lastScore = snake1.score;
-      let lastLevel = snake1.level;
-      snake1 = initSnake("#DBDBDB");
-      snake1.score = lastScore;
-      snake1.level = lastLevel;
-      totalLove -= 1;
-    } else {
-      alert("Game over, play again?");
-      totalLove = 3;
-      snake1 = initSnake("#DBDBDB"); 
-      snake1.level = 1;
-      snake1.score = 0;
-    }
+    dead();
   }
 
   return isCollide;
