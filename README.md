@@ -1,8 +1,9 @@
-# Assignment SE Project - BE 2
+# Assignment SE Project - BE2 - Kelompok 4
 Pada assignment ini diberikan tugas perkelompok untuk melanjutkan pengembangan snake-game berdasarkan requirement yang telah ada. Pengembangan dilakukan dengan metode Agile dan menggunakan worfklow Github Action (CI/CD).
 
 # Hasil
 - Netlify: https://se-be2-kelompok4.netlify.app/
+- Github: https://rg-km.github.io/se-be2-kelompok4/
 
 # Anggota Kelompok
 -  BE2130075 - Dea Ashari Oktavia - Universitas Telkom
